@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TimeDial Web Component Example</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            background: #f9f9f9;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        .demo-section {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .demo-container {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+            align-items: flex-start;
+        }
+
+        .dial-wrapper {
+            flex: 0 0 auto;
+        }
+
+        .controls {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .info {
+            background: #f0f0f0;
+            padding: 12px;
+            border-radius: 4px;
+            margin: 10px 0;
+            font-family: monospace;
+        }
+
+        button {
+            background: #0066cc;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px 5px 5px 0;
+            font-size: 14px;
+        }
+
+        button:hover {
+            background: #0052a3;
+        }
+
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        input,
+        select {
+            padding: 8px;
+            margin: 5px 5px 5px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0 5px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        time-dial {
+            max-width: 300px;
+        }
+
+        .event-log {
+            background: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 10px;
+            max-height: 200px;
+            overflow-y: auto;
+            font-family: monospace;
+            font-size: 12px;
+        }
+
+        .event-log-item {
+            margin: 4px 0;
+            padding: 4px;
+            background: white;
+            border-left: 3px solid #0066cc;
+            padding-left: 8px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>TimeDial Web Component</h1>
+    <p>Interactive time selection wheel. Click the inner disc to select hours (0-11), click the outer ring to select
+        minutes (0-59).</p>
+    <p><strong>Keyboard shortcuts:</strong> Tab to switch between hour/minute | Arrow keys adjust value | H = hours | M
+        = minutes</p>
+
+    <!-- Demo 1: Core Features & Interaction -->
+    <div class="demo-section">
+        <h2>Core Features & Interaction</h2>
+        <p>Complete demonstration of basic usage, value control, keyboard navigation, and disabled state.</p>
+        <div class="demo-container">
+            <div class="dial-wrapper">
+                <time-dial id="dial1" hour="3" minute="45" aria-label="Time selector"></time-dial>
+            </div>
+            <div class="controls">
+                <label>Selected Time:</label>
+                <div class="info" id="time1">03:45</div>
+
+                <label>Value Property:</label>
+                <div class="info" id="valueProp1">03:45</div>
+
+                <label>Active Field:</label>
+                <div class="info" id="activeField1">hour</div>
+
+                <label>Set Time Manually:</label>
+                <input type="number" id="hourInput1" min="0" max="11" value="3" placeholder="Hour (0-11)">
+                <input type="number" id="minuteInput1" min="0" max="59" value="45" placeholder="Minute (0-59)">
+                <button onclick="setTime1()">Apply</button>
+
+                <label>Quick Actions:</label>
+                <button onclick="resetDial1()">Reset to 00:00</button>
+                <button onclick="setTo930()">Set to 9:30</button>
+                <button id="toggleDisabled" onclick="toggleDisabled()">Disable</button>
+
+                <label>Status:</label>
+                <div class="info" id="disabledStatus">Enabled</div>
+
+                <label>Keyboard Controls:</label>
+                <div style="margin: 10px 0; padding: 10px; background: #f0f0f0; border-radius: 4px; font-size: 12px;">
+                    <strong>Navigate:</strong> Tab (switch sectors) | H (hours) | M (minutes)<br>
+                    <strong>Adjust:</strong> ↑/→ (increment) | ↓/← (decrement)
+                </div>
+
+                <label>Recent Events:</label>
+                <div class="event-log" id="eventLog1"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Demo 2: Size Variations -->
+    <div class="demo-section">
+        <h2>Size Variations</h2>
+        <p>The <code>size</code> attribute controls the widget dimensions. Default is 240px.</p>
+        <div style="display: flex; gap: 30px; flex-wrap: wrap; align-items: flex-end; justify-content: center;">
+            <div style="text-align: center;">
+                <time-dial id="dial2a" size="120" hour="3" minute="15"></time-dial>
+                <div style="margin-top: 10px; font-weight: bold;">120px</div>
+            </div>
+            <div style="text-align: center;">
+                <time-dial id="dial2b" size="180" hour="6" minute="30"></time-dial>
+                <div style="margin-top: 10px; font-weight: bold;">180px</div>
+            </div>
+            <div style="text-align: center;">
+                <time-dial id="dial2c" hour="9" minute="45"></time-dial>
+                <div style="margin-top: 10px; font-weight: bold;">240px (default)</div>
+            </div>
+            <div style="text-align: center;">
+                <time-dial id="dial2d" size="360" hour="0" minute="0"></time-dial>
+                <div style="margin-top: 10px; font-weight: bold;">360px</div>
+            </div>
+        </div>
+        <div style="margin-top: 20px; padding: 15px; background: #f0f0f0; border-radius: 4px;">
+            <strong>Note:</strong> All dials are fully functional at any size. Try clicking or dragging on any of them.
+        </div>
+    </div>
+
+    <!-- Demo 3: Display Configuration -->
+    <div class="demo-section">
+        <h2>Display Configuration</h2>
+        <p>Configure hour and minute overlays independently using <code>none | ticks | dots | labels</code>.</p>
+        <div class="demo-container">
+            <div class="dial-wrapper">
+                <time-dial id="dial3" hour="10" minute="25" hour-display="ticks" minute-display="dots"></time-dial>
+            </div>
+            <div class="controls">
+                <label for="hourDisplay3">Hour Display:</label>
+                <select id="hourDisplay3">
+                    <option value="none">none</option>
+                    <option value="ticks" selected>ticks</option>
+                    <option value="dots">dots</option>
+                    <option value="labels">labels</option>
+                </select>
+
+                <label for="minuteDisplay3">Minute Display:</label>
+                <select id="minuteDisplay3">
+                    <option value="none">none</option>
+                    <option value="ticks">ticks</option>
+                    <option value="dots" selected>dots</option>
+                    <option value="labels">labels</option>
+                </select>
+
+                <label for="minuteStep3">Minute Step:</label>
+                <select id="minuteStep3">
+                    <option value="1" selected>1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="10">10</option>
+                    <option value="12">12</option>
+                    <option value="15">15</option>
+                    <option value="20">20</option>
+                    <option value="30">30</option>
+                </select>
+
+                <label>Current Config:</label>
+                <div class="info" id="config3"></div>
+
+                <label>Selected Time:</label>
+                <div class="info" id="time3"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Demo 4: Custom Styling with CSS Variables -->
+    <div class="demo-section">
+        <h2>Custom Styling with CSS Variables</h2>
+        <p>Use CSS custom properties to completely customize the appearance without shadow DOM piercing.</p>
+        <div style="display: flex; gap: 30px; flex-wrap: wrap; justify-content: center;">
+            <!-- Default Theme -->
+            <div style="text-align: center;">
+                <time-dial id="dial4a" hour="3" minute="15" hour-display="ticks" minute-display="dots"
+                    minute-step="5"></time-dial>
+                <div style="margin-top: 10px; font-weight: bold;">Default</div>
+            </div>
+
+            <!-- Ocean Theme -->
+            <div style="text-align: center;">
+                <time-dial id="dial4b" class="ocean-theme" hour="5" minute="20" hour-display="ticks" minute-step="1"
+                    minute-display="dots"></time-dial>
+                <div style="margin-top: 10px; font-weight: bold;">Ocean</div>
+            </div>
+
+            <!-- Sunset Theme -->
+            <div style="text-align: center;">
+                <time-dial id="dial4c" class="sunset-theme" hour="9" minute="40" hour-display="dots"
+                    minute-display="dots" minute-step="5"></time-dial>
+                <div style="margin-top: 10px; font-weight: bold;">Sunset</div>
+            </div>
+
+            <!-- Dark Theme -->
+            <div style="text-align: center;">
+                <time-dial id="dial4d" class="dark-theme" hour="2" minute="10" hour-display="labels"
+                    minute-display="ticks" minute-step="5"></time-dial>
+                <div style="margin-top: 10px; font-weight: bold;">Dark</div>
+            </div>
+        </div>
+        <div style="margin-top: 20px; padding: 15px; background: #f0f0f0; border-radius: 4px;">
+            <strong>Available CSS Variables:</strong>
+            <ul style="margin: 10px 0; font-family: monospace; font-size: 13px; line-height: 1.6;">
+                <li><code>--td-size</code> - Widget size (default: 240px)</li>
+                <li><code>--td-hour-disc-fill</code> - Inner disc background (default: white)</li>
+                <li><code>--td-minute-disc-fill</code> - Outer disc background (default: white)</li>
+                <li><code>--td-hour-disc-shadow</code> - Inner disc shadow (default: drop-shadow(...))</li>
+                <li><code>--td-minute-disc-shadow</code> - Outer disc shadow (default: drop-shadow(...))</li>
+                <li><code>--td-hour-sector-fill</code> - Hour sector color (default: rgba(0, 255, 0, 0.5))</li>
+                <li><code>--td-minute-sector-fill</code> - Minute sector color (default: rgba(128, 255, 128, 0.5))</li>
+                <li><code>--td-tick-color</code> - Tick marks color (default: #8a8a8a)</li>
+                <li><code>--td-tick-width</code> - Tick marks width (default: 1)</li>
+                <li><code>--td-dot-color</code> - Dot markers color (default: #8a8a8a)</li>
+                <li><code>--td-label-color</code> - Label text color (default: currentColor)</li>
+                <li><code>--td-label-font-size</code> - Label font size (default: 10px)</li>
+                <li><code>--td-label-font-family</code> - Label font family (default: inherit)</li>
+                <li><code>--td-label-font-weight</code> - Label font weight (default: inherit)</li>
+                <li><code>--td-focus-color</code> - Focus outline color (default: #000000)</li>
+                <li><code>--td-focus-width</code> - Focus outline width (default: 1)</li>
+                <li><code>--td-disabled-opacity</code> - Disabled state opacity (default: 0.6)</li>
+            </ul>
+        </div>
+    </div>
+
+    <style>
+        /* Ocean Theme */
+        .ocean-theme {
+            --td-hour-disc-fill: #e3f2fd;
+            --td-minute-disc-fill: #bbdefb;
+            --td-hour-sector-fill: rgba(33, 150, 243, 0.6);
+            --td-minute-sector-fill: rgba(100, 181, 243, 0.5);
+            --td-tick-color: #1565c0;
+            --td-dot-color: #0d47a1;
+            --td-label-color: #0d47a1;
+            --td-label-font-weight: bold;
+            --td-focus-color: #1976d2;
+            --td-hour-disc-shadow: drop-shadow(2px 2px 6px rgba(33, 150, 243, 0.4));
+            --td-minute-disc-shadow: drop-shadow(2px 2px 6px rgba(33, 150, 243, 0.3));
+        }
+
+        /* Sunset Theme */
+        .sunset-theme {
+            --td-hour-disc-fill: #fff3e0;
+            --td-minute-disc-fill: #ffe0b2;
+            --td-hour-sector-fill: rgba(255, 87, 34, 0.6);
+            --td-minute-sector-fill: rgba(255, 152, 0, 0.5);
+            --td-tick-color: #e64a19;
+            --td-dot-color: #bf360c;
+            --td-label-color: #bf360c;
+            --td-label-font-weight: bold;
+            --td-focus-color: #ff5722;
+            --td-hour-disc-shadow: drop-shadow(2px 2px 6px rgba(255, 87, 34, 0.4));
+            --td-minute-disc-shadow: drop-shadow(2px 2px 6px rgba(255, 152, 0, 0.3));
+        }
+
+        /* Dark Theme */
+        .dark-theme {
+            --td-hour-disc-fill: #424242;
+            --td-minute-disc-fill: #616161;
+            --td-hour-sector-fill: rgba(156, 39, 176, 0.7);
+            --td-minute-sector-fill: rgba(171, 71, 188, 0.5);
+            --td-tick-color: #e1bee7;
+            --td-dot-color: #ce93d8;
+            --td-label-color: #f3e5f5;
+            --td-label-font-size: 9px;
+            --td-label-font-weight: bold;
+            --td-focus-color: #ab47bc;
+            --td-hour-disc-shadow: drop-shadow(2px 2px 8px rgba(0, 0, 0, 0.8));
+            --td-minute-disc-shadow: drop-shadow(2px 2px 8px rgba(0, 0, 0, 0.6));
+        }
+    </style>
+
+    <script src="time-dial.js"></script>
+    <script>
+        // ===== Demo 1: Core Features & Interaction =====
+        const dial1 = document.getElementById('dial1');
+        const time1 = document.getElementById('time1');
+        const valueProp1 = document.getElementById('valueProp1');
+        const activeField1 = document.getElementById('activeField1');
+        const eventLog1 = document.getElementById('eventLog1');
+        const hourInput1 = document.getElementById('hourInput1');
+        const minuteInput1 = document.getElementById('minuteInput1');
+        const toggleDisabledBtn = document.getElementById('toggleDisabled');
+        const disabledStatus = document.getElementById('disabledStatus');
+        let isDisabled = false;
+
+        dial1.addEventListener('input', (e) => {
+            time1.textContent = dial1.value;
+            valueProp1.textContent = dial1.value;
+            logEvent1('input', e.detail);
+        });
+
+        dial1.addEventListener('change', (e) => {
+            logEvent1('change', e.detail);
+        });
+
+        function setTime1() {
+            const hour = parseInt(hourInput1.value, 10);
+            const minute = parseInt(minuteInput1.value, 10);
+            if (hour >= 0 && hour < 12 && minute >= 0 && minute < 60) {
+                dial1.hour = hour;
+                dial1.minute = minute;
+                time1.textContent = dial1.value;
+                valueProp1.textContent = dial1.value;
+            }
+        }
+
+        function resetDial1() {
+            dial1.value = '00:00';
+            time1.textContent = dial1.value;
+            valueProp1.textContent = dial1.value;
+            hourInput1.value = 0;
+            minuteInput1.value = 0;
+        }
+
+        function setTo930() {
+            dial1.value = '09:30';
+            time1.textContent = dial1.value;
+            valueProp1.textContent = dial1.value;
+            hourInput1.value = 9;
+            minuteInput1.value = 30;
+        }
+
+        function toggleDisabled() {
+            isDisabled = !isDisabled;
+            dial1.disabled = isDisabled;
+            toggleDisabledBtn.textContent = isDisabled ? 'Enable' : 'Disable';
+            disabledStatus.textContent = isDisabled ? 'Disabled' : 'Enabled';
+        }
+
+        function logEvent1(eventType, detail) {
+            const log = document.createElement('div');
+            log.className = 'event-log-item';
+            const time = new Date().toLocaleTimeString();
+            log.textContent = `[${time}] ${eventType}: ${detail.hour}:${String(detail.minute).padStart(2, '0')}`;
+            eventLog1.insertBefore(log, eventLog1.firstChild);
+            while (eventLog1.children.length > 10) {
+                eventLog1.removeChild(eventLog1.lastChild);
+            }
+        }
+
+        // Track active field by observing which disc has focus
+        const updateActiveField1 = () => {
+            const hourDisc = dial1.shadowRoot.getElementById('hourDisc');
+            const minuteDisc = dial1.shadowRoot.getElementById('minuteDisc');
+            const activeElement = dial1.shadowRoot.activeElement;
+
+            if (activeElement === hourDisc) {
+                activeField1.textContent = 'hour';
+            } else if (activeElement === minuteDisc) {
+                activeField1.textContent = 'minute';
+            }
+        };
+
+        // Update on focus events within the dial
+        dial1.shadowRoot.addEventListener('focusin', updateActiveField1);
+
+        // ===== Demo 3: Display Configuration =====
+        const dial3 = document.getElementById('dial3');
+        const hourDisplay3 = document.getElementById('hourDisplay3');
+        const minuteDisplay3 = document.getElementById('minuteDisplay3');
+        const minuteStep3 = document.getElementById('minuteStep3');
+        const config3 = document.getElementById('config3');
+        const time3 = document.getElementById('time3');
+
+        function updateDial3() {
+            dial3.hourDisplay = hourDisplay3.value;
+            dial3.minuteDisplay = minuteDisplay3.value;
+            dial3.minuteStep = parseInt(minuteStep3.value, 10);
+            config3.textContent = `hour-display=${dial3.hourDisplay}, minute-display=${dial3.minuteDisplay}, minute-step=${dial3.minuteStep}`;
+            time3.textContent = dial3.value;
+        }
+
+        hourDisplay3.addEventListener('change', updateDial3);
+        minuteDisplay3.addEventListener('change', updateDial3);
+        minuteStep3.addEventListener('change', updateDial3);
+        dial3.addEventListener('input', () => {
+            time3.textContent = dial3.value;
+        });
+
+        updateDial3();
+    </script>
+</body>
+
+</html>
