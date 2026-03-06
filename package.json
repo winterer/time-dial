@@ -4,7 +4,8 @@
     "description": "A framework-agnostic time selection Web Component with circular dial interface",
     "main": "./src/time-dial.js",
     "exports": {
-        ".": "./src/time-dial.js"
+        ".": "./src/time-dial.js",
+        "./themes.css": "./src/time-dial-themes.css"
     },
     "files": [
         "src",
