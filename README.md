@@ -279,7 +279,9 @@ Works in all modern browsers supporting:
 
 ### Running the Demo
 
-Open [examples/time-dial-demo.html](examples/time-dial-demo.html) in your browser.
+**[View Live Demo](https://htmlpreview.github.io/?https://github.com/winterer/time-dial/blob/main/examples/time-dial-demo.html)**
+
+Or open [examples/time-dial-demo.html](examples/time-dial-demo.html) locally in your browser.
 
 ### Architecture
 
