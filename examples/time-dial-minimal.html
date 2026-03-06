@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Time Dial Minimal Demo</title>
+    <script src="../src/time-dial.js"></script>
+</head>
+
+<body>
+    <time-dial id="dial" hour="9" minute="30" aria-label="Select time"></time-dial>
+    <p id="value">09:30</p>
+
+    <script>
+        const dial = document.getElementById('dial');
+        const value = document.getElementById('value');
+
+        const syncValue = () => {
+            value.textContent = dial.value;
+        };
+
+        dial.addEventListener('input', syncValue);
+        dial.addEventListener('change', syncValue);
+        syncValue();
+    </script>
+</body>
+
+</html>
