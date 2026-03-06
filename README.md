@@ -2,6 +2,8 @@
 
 A framework-agnostic time selection widget implemented as a Web Component. The widget displays a circular dial with two concentric discs for intuitive hour and minute selection.
 
+**[🚀 View Live Demo](https://winterer.github.io/time-dial/)**
+
 ## Features
 
 - **Two concentric selection zones**
@@ -276,12 +278,6 @@ Works in all modern browsers supporting:
 - Safari 14+
 
 ## Development
-
-### Running the Demo
-
-**[View Live Demo](https://winterer.github.io/time-dial/)**
-
-Or open [examples/time-dial-demo.html](examples/time-dial-demo.html) locally in your browser.
 
 ### Architecture
 
