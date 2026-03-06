@@ -108,6 +108,26 @@
             border-left: 3px solid #0066cc;
             padding-left: 8px;
         }
+
+        .repo-link {
+            display: inline-block;
+            background: #24292e;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: bold;
+            margin: 15px 0;
+            transition: background 0.2s;
+        }
+
+        .repo-link:hover {
+            background: #0366d6;
+        }
+
+        .repo-link::before {
+            content: "⭐ ";
+        }
     </style>
 </head>
 
@@ -117,6 +137,10 @@
         minutes (0-59).</p>
     <p><strong>Keyboard shortcuts:</strong> Tab to switch between hour/minute | Arrow keys adjust value | H = hours | M
         = minutes</p>
+    <p>
+        <a href="https://github.com/winterer/time-dial" class="repo-link" target="_blank" rel="noopener">View on
+            GitHub</a>
+    </p>
 
     <!-- Demo 1: Core Features & Interaction -->
     <div class="demo-section">

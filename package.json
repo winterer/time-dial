@@ -21,7 +21,11 @@
         "accessibility",
         "aria"
     ],
-    "author": "",
+    "author": "Mario Winterer <mario.winterer@gmail.com>",
+    "contributors": [
+        "Mario Winterer",
+        "GitHub Copilot"
+    ],
     "license": "MIT",
     "repository": {
         "type": "git",
