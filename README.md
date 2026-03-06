@@ -4,6 +4,8 @@ A framework-agnostic time selection widget implemented as a Web Component. The w
 
 **[🚀 View Live Demo](https://winterer.github.io/time-dial/)**
 
+![Preview](docs/time-dials.png)
+
 ## Features
 
 - **Two concentric selection zones**
