@@ -103,10 +103,10 @@ class TimeDial extends HTMLElement {
         </style>
 
         <svg id="timeDial" viewBox="-56 -56 112 112" xmlns="http://www.w3.org/2000/svg" part="svg">
-            <circle id="minuteDisc" class="minute-disc" r="${this.OUTER_RADIUS}" part="outer-disc" tabindex="2" role="slider" aria-label="Minutes" aria-valuemin="0" aria-valuemax="59"></circle>
+            <circle id="minuteDisc" class="minute-disc" r="${this.OUTER_RADIUS}" part="minute-disc" tabindex="2" role="slider" aria-label="Minutes" aria-valuemin="0" aria-valuemax="59"></circle>
             <path id="minuteSector" class="minute-sector" part="minute-sector" pointer-events="none"></path>
 
-            <circle id="hourDisc" class="hour-disc" r="${this.INNER_RADIUS}" part="inner-disc" tabindex="1" role="slider" aria-label="Hours" aria-valuemin="0" aria-valuemax="11"></circle>
+            <circle id="hourDisc" class="hour-disc" r="${this.INNER_RADIUS}" part="hour-disc" tabindex="1" role="slider" aria-label="Hours" aria-valuemin="0" aria-valuemax="11"></circle>
             <path id="hourSector" class="hour-sector" part="hour-sector" pointer-events="none"></path>
 
             <g id="ticksLayer" part="ticks" pointer-events="none">

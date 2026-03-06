@@ -167,12 +167,12 @@ dial.addEventListener('change', (e) => {
 The component exposes the following parts for custom styling:
 
 ```css
-time-dial::part(outer-disc) {
-  /* Minute disc styles */
+time-dial::part(minute-disc) {
+  /* Minute disc (outer ring) styles */
 }
 
-time-dial::part(inner-disc) {
-  /* Hour disc styles */
+time-dial::part(hour-disc) {
+  /* Hour disc (inner ring) styles */
 }
 
 time-dial::part(hour-sector) {
