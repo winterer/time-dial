@@ -29,18 +29,35 @@ A framework-agnostic time selection widget implemented as a Web Component. The w
 
 ## Installation
 
-### Direct Usage
+### CDN (Quick Start)
+
+Load directly from jsDelivr without any build step:
+
+```html
+<script src="https://cdn.jsdelivr.net/gh/winterer/time-dial@main/src/time-dial.js"></script>
+<!-- Optional: Load shared themes -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/winterer/time-dial@main/src/time-dial-themes.css">
+
+<time-dial class="ocean-theme"></time-dial>
+```
+
+### Local Usage
+
+For development or local testing, clone the repository and include the source files:
 
 ```html
 <script src="src/time-dial.js"></script>
+<!-- Optional: Load shared themes -->
+<link rel="stylesheet" href="src/time-dial-themes.css">
 
-<time-dial></time-dial>
+<time-dial class="sunset-theme"></time-dial>
 ```
 
 ### ES Module
 
 ```javascript
 import './src/time-dial.js';
+import './src/time-dial-themes.css'; // Optional for themes
 ```
 
 ## Usage
@@ -306,6 +323,33 @@ Works in all modern browsers supporting:
 - Safari 14+
 
 ## Development
+
+### Build (Vite)
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Build distributable files:
+
+```bash
+npm run build
+```
+
+This generates:
+
+- `dist/time-dial.js`
+- `dist/time-dial-themes.css`
+
+
+When installed from npm, consumers can import:
+
+```javascript
+import 'time-dial';
+import 'time-dial/themes.css';
+```
 
 ### Architecture
 

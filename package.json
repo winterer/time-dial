@@ -1,13 +1,16 @@
 {
     "name": "time-dial",
-    "version": "1.0.0",
+    "version": "0.1.0",
+    "type": "module",
     "description": "A framework-agnostic time selection Web Component with circular dial interface",
-    "main": "./src/time-dial.js",
+    "main": "./dist/time-dial.js",
+    "module": "./dist/time-dial.js",
     "exports": {
-        ".": "./src/time-dial.js",
-        "./themes.css": "./src/time-dial-themes.css"
+        ".": "./dist/time-dial.js",
+        "./themes.css": "./dist/time-dial-themes.css"
     },
     "files": [
+        "dist",
         "src",
         "README.md",
         "LICENSE"
@@ -39,5 +42,12 @@
     "engines": {
         "node": ">=14.0.0"
     },
-    "devDependencies": {}
+    "scripts": {
+        "build": "vite build",
+        "build:watch": "vite build --watch",
+        "prepublishOnly": "npm run build"
+    },
+    "devDependencies": {
+        "vite": "^7.3.1"
+    }
 }
