@@ -210,6 +210,32 @@ time-dial {
 }
 ```
 
+### Reusable Themes
+
+Predefined theme classes are available in `src/time-dial-themes.css`:
+
+- `ocean-theme`
+- `sunset-theme`
+- `dark-theme`
+
+Load the shared stylesheet and apply a class directly to `<time-dial>`:
+
+```html
+<link rel="stylesheet" href="src/time-dial-themes.css">
+<script src="src/time-dial.js"></script>
+
+<time-dial class="ocean-theme"></time-dial>
+```
+
+For CDN usage:
+
+```html
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/winterer/time-dial@main/src/time-dial-themes.css">
+<script src="https://cdn.jsdelivr.net/gh/winterer/time-dial@main/src/time-dial.js"></script>
+
+<time-dial class="dark-theme"></time-dial>
+```
+
 ### Value Precedence
 
 When multiple inputs are provided, values are resolved in this order:
