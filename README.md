@@ -66,16 +66,6 @@ If you want to use the minified release assets, download them from [GitHub Relea
 <time-dial class="ocean-theme"></time-dial>
 ```
 
-For development or local testing, clone the repository and include the source files:
-
-```html
-<script src="src/time-dial.js"></script>
-<!-- Optional: Load shared themes -->
-<link rel="stylesheet" href="src/time-dial-themes.css">
-
-<time-dial class="sunset-theme"></time-dial>
-```
-
 ### ES Module
 
 ```javascript
