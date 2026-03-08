@@ -49,9 +49,9 @@ Latest release:
 Pin to a specific version (recommended for production):
 
 ```html
-<script src="https://github.com/winterer/time-dial/releases/download/<vX.Y.Z>/time-dial.js"></script>
+<script src="https://github.com/winterer/time-dial/releases/download/vX.Y.Z/time-dial.js"></script>
 <!-- Optional: Load shared themes -->
-<link rel="stylesheet" href="https://github.com/winterer/time-dial/releases/download/<vX.Y.Z>/time-dial-themes.css">
+<link rel="stylesheet" href="https://github.com/winterer/time-dial/releases/download/vX.Y.Z/time-dial-themes.css">
 
 <time-dial class="ocean-theme"></time-dial>
 ```
@@ -428,7 +428,3 @@ During drag operations, the component uses `setPointerCapture()` to ensure smoot
 ## License
 
 [Specify your license here]
-
-## Contributing
-
-[Specify contribution guidelines here]
