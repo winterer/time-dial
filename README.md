@@ -34,24 +34,26 @@ A framework-agnostic time selection widget implemented as a Web Component. The w
 
 ### From GitHub Release (Recommended)
 
-Install directly from release assets. This gives stable, version-pinned URLs.
+Install directly from release assets.
 
-Version-pinned:
-
-```html
-<script src="https://github.com/winterer/time-dial/releases/download/vX.Y.Z/time-dial.js"></script>
-<!-- Optional: Load shared themes -->
-<link rel="stylesheet" href="https://github.com/winterer/time-dial/releases/download/vX.Y.Z/time-dial-themes.css">
-
-<time-dial class="ocean-theme"></time-dial>
-```
-
-Latest release (optional):
+Latest release:
 
 ```html
 <script src="https://github.com/winterer/time-dial/releases/latest/download/time-dial.js"></script>
 <!-- Optional: Load shared themes -->
 <link rel="stylesheet" href="https://github.com/winterer/time-dial/releases/latest/download/time-dial-themes.css">
+
+<time-dial class="ocean-theme"></time-dial>
+```
+
+Pin to a specific version (recommended for production):
+
+```html
+<script src="https://github.com/winterer/time-dial/releases/download/<vX.Y.Z>/time-dial.js"></script>
+<!-- Optional: Load shared themes -->
+<link rel="stylesheet" href="https://github.com/winterer/time-dial/releases/download/<vX.Y.Z>/time-dial-themes.css">
+
+<time-dial class="ocean-theme"></time-dial>
 ```
 
 ### Directly From Source
@@ -62,6 +64,16 @@ Load source files from the main branch using jsDelivr:
 <script src="https://cdn.jsdelivr.net/gh/winterer/time-dial@main/src/time-dial.js"></script>
 <!-- Optional: Load shared themes -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/winterer/time-dial@main/src/time-dial-themes.css">
+
+<time-dial class="ocean-theme"></time-dial>
+```
+
+Pin to a specific tagged version on jsDelivr:
+
+```html
+<script src="https://cdn.jsdelivr.net/gh/winterer/time-dial@vX.Y.Z/src/time-dial.js"></script>
+<!-- Optional: Load shared themes -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/winterer/time-dial@vX.Y.Z/src/time-dial-themes.css">
 
 <time-dial class="ocean-theme"></time-dial>
 ```
