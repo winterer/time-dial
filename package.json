@@ -1,6 +1,6 @@
 {
     "name": "time-dial",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "type": "module",
     "description": "A framework-agnostic time selection Web Component with circular dial interface",
     "main": "./dist/time-dial.js",
