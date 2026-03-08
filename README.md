@@ -63,8 +63,6 @@ Load source files from the main branch using jsDelivr:
 <time-dial class="ocean-theme"></time-dial>
 ```
 
-Or clone the repository and include local source files:
-
 For development or local testing, clone the repository and include the source files:
 
 ```html
