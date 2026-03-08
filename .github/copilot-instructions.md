@@ -152,19 +152,17 @@ time-dial {
 - **Hosted at:** `docs/index.html` (GitHub Pages, `/docs` folder, main branch)
 - **CDN:** Uses jsDelivr (e.g., `https://cdn.jsdelivr.net/gh/winterer/time-dial@main/src/time-dial.js`)
 
-### CI Workflow
+### CI/CD Workflows
 
-**`.github/workflows/build.yml`:**
+**Build workflow (`.github/workflows/build.yml`):**
 - Triggers: Push to main, pull requests
 - Node 20, `npm ci` → `npm run build`
 - Verifies `dist/time-dial.js` and `dist/time-dial-themes.css` exist
 
-### Publishing (deferred)
-
-**`.github/workflows/publish.yml`** exists but **intentionally not pushed**. When ready to publish to npm:
-1. Add `NPM_TOKEN` secret to GitHub
-2. Enable pushes on publish.yml
-3. GitHub Release UI triggers npm publish with `--provenance --access public`
+**Release Assets workflow (`.github/workflows/release-assets.yml`):**
+- Triggers: GitHub Release creation
+- Validates tag version matches `package.json` (enforced: tag `vX.Y.Z` must match version `X.Y.Z`)
+- Builds and uploads `dist/time-dial.js` and `dist/time-dial-themes.css` to release
 
 ---
 
