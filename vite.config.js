@@ -11,7 +11,17 @@ export default defineConfig({
         },
         outDir: 'dist',
         emptyOutDir: true,
-        minify: true,
+        minify: 'terser',
+        terserOptions: {
+            compress: {
+                module: true,
+                passes: 3
+            },
+            mangle: true,
+            format: {
+                comments: false
+            }
+        },
         target: 'es2019'
     },
     plugins: [
