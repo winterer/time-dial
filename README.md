@@ -1,5 +1,8 @@
 # `<time-dial>` Web Component
 
+![GitHub Release](https://img.shields.io/github/v/release/winterer/time-dial?style=for-the-badge)
+
+
 A framework-agnostic time selection widget implemented as a Web Component. The widget displays a circular dial with two concentric discs for intuitive hour and minute selection.
 
 **[🚀 View Live Demo](https://winterer.github.io/time-dial/)**
