@@ -32,48 +32,36 @@ A framework-agnostic time selection widget implemented as a Web Component. The w
 
 ## Installation
 
-### From GitHub Release (Recommended)
+### jsDelivr (Recommended)
 
-Install directly from release assets.
-
-Latest release:
+Load from jsDelivr using the latest published version:
 
 ```html
-<script src="https://github.com/winterer/time-dial/releases/latest/download/time-dial.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/winterer/time-dial@latest/src/time-dial.js"></script>
 <!-- Optional: Load shared themes -->
-<link rel="stylesheet" href="https://github.com/winterer/time-dial/releases/latest/download/time-dial-themes.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/winterer/time-dial@latest/src/time-dial-themes.css">
 
 <time-dial class="ocean-theme"></time-dial>
 ```
 
-Pin to a specific version (recommended for production):
-
-```html
-<script src="https://github.com/winterer/time-dial/releases/download/vX.Y.Z/time-dial.js"></script>
-<!-- Optional: Load shared themes -->
-<link rel="stylesheet" href="https://github.com/winterer/time-dial/releases/download/vX.Y.Z/time-dial-themes.css">
-
-<time-dial class="ocean-theme"></time-dial>
-```
-
-### Directly From Source
-
-Load source files from the main branch using jsDelivr:
-
-```html
-<script src="https://cdn.jsdelivr.net/gh/winterer/time-dial@main/src/time-dial.js"></script>
-<!-- Optional: Load shared themes -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/winterer/time-dial@main/src/time-dial-themes.css">
-
-<time-dial class="ocean-theme"></time-dial>
-```
-
-Pin to a specific tagged version on jsDelivr:
+Pin to a specific version for production:
 
 ```html
 <script src="https://cdn.jsdelivr.net/gh/winterer/time-dial@vX.Y.Z/src/time-dial.js"></script>
 <!-- Optional: Load shared themes -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/winterer/time-dial@vX.Y.Z/src/time-dial-themes.css">
+
+<time-dial class="ocean-theme"></time-dial>
+```
+
+### Self-Host Minified Release Assets
+
+If you want to use the minified release assets, download them from [GitHub Releases](https://github.com/winterer/time-dial/releases) and host them on your own server/CDN:
+
+```html
+<script src="/assets/time-dial.js"></script>
+<!-- Optional: Load shared themes -->
+<link rel="stylesheet" href="/assets/time-dial-themes.css">
 
 <time-dial class="ocean-theme"></time-dial>
 ```
@@ -282,8 +270,8 @@ Load the shared stylesheet and apply a class directly to `<time-dial>`:
 For CDN usage:
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/winterer/time-dial@main/src/time-dial-themes.css">
-<script src="https://cdn.jsdelivr.net/gh/winterer/time-dial@main/src/time-dial.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/winterer/time-dial@latest/src/time-dial-themes.css">
+<script src="https://cdn.jsdelivr.net/gh/winterer/time-dial@latest/src/time-dial.js"></script>
 
 <time-dial class="dark-theme"></time-dial>
 ```
