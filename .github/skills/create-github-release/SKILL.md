@@ -1,112 +1,191 @@
 ---
 name: create-github-release
-description: Create and validate a GitHub release for time-dial using the repository's Release Assets workflow. Use when asked to cut a release, draft release notes, bump versions, or verify release assets/URLs. Keywords: release, tag, gh cli, changelog, version bump, GitHub Releases, workflow.
+description: Create and validate GitHub releases for time-dial. Handles version bumping, release note generation, tag creation, and workflow verification. Includes helper scripts for rendering notes and polling Release Assets workflow. Use for: cutting releases, bumping versions, verifying assets/URLs.
 ---
 
 # Create GitHub Release (time-dial)
 
-Use this skill when a user asks to create, prepare, or verify a release for this repository.
+Use this skill to create, prepare, or verify a release. The process includes version bumping, release note generation from a canonical template, GitHub release creation, and automated verification of the Release Assets workflow and published artifacts.
 
 ## Repository-specific rules
 
-- Release tag format: `vX.Y.Z`
-- `package.json` version format: `X.Y.Z` (no `v` prefix)
-- Tag version **must** match `package.json` version (enforced by workflow)
-- Release workflow: `.github/workflows/release-assets.yml`
-- Canonical release notes template: `.github/release-notes-template.md`
-- Uploaded assets come from `dist/`:
-	- `time-dial.js`
-	- `time-dial-themes.css`
-- Do **not** claim npm install support in release notes unless explicitly published to npm.
+- **Release tag format:** `vX.Y.Z` (e.g., `v0.1.2`)
+- **package.json version:** `X.Y.Z` (no `v` prefix)
+- **Version sync:** Tag version must match `package.json` version (enforced by workflow)
+- **Release workflow:** `.github/workflows/release-assets.yml`
+- **Release notes template:** `.github/release-notes-template.md`
+- **Published assets:** `time-dial.js` and `time-dial-themes.css` (from `dist/`)
+- **npm disclaimer:** Do not claim npm install support in release notes unless explicitly published to npm
 
-## Required inputs and clarification behavior
+## Helper Scripts
 
-- Required input: target release version/tag.
-- If the user provides `X.Y.Z`, normalize internally to `vX.Y.Z` for tag operations.
-- If the user provides `vX.Y.Z`, use it as-is.
-- If no version is provided:
-	1. Read `package.json` and extract the current version.
-	2. Compute and present these choices:
-		- next patch version (for example, `1.2.3` -> `1.2.4`)
-		- next minor version (for example, `1.2.3` -> `1.3.0`)
-		- next major version (for example, `1.2.3` -> `2.0.0`)
-		- free-form custom version input
-	3. Mark patch bump as the default suggested option.
-	4. Ask for explicit user selection/confirmation before running any release command.
-- Use this prompt style when missing: `Current package.json version is vX.Y.Z. Which target version should I use? Options: patch vX.Y.(Z+1), minor vX.(Y+1).0, major v(X+1).0.0, or a custom version.`
-- Never run release mutation commands (`npm version`, `git commit`, `git push`, `gh release create`) until version is explicit/confirmed.
+Two bash scripts in this skill folder automate key release tasks:
 
-## Required process
+### render-release-notes.sh
 
-1. Read `package.json` and confirm current version.
-2. If needed, bump version with `npm version X.Y.Z --no-git-tag-version`.
-3. Commit and push the version bump to `main`.
-4. Render release notes from `.github/release-notes-template.md` by replacing `vX.Y.Z`.
-5. Create GitHub release with tag `vX.Y.Z` (from `main`) using `--notes-file`.
-6. Verify the `Release Assets` workflow run completed successfully.
-7. Verify release assets are present and URLs resolve.
+Generates release notes from the canonical template by replacing `vX.Y.Z` placeholders.
 
-## Preferred CLI commands
+**Usage:**
+```bash
+# Output to stdout (for piping to gh release create)
+.github/skills/create-github-release/render-release-notes.sh vX.Y.Z
+
+# Output to file (for review/editing)
+.github/skills/create-github-release/render-release-notes.sh vX.Y.Z /tmp/release-notes.md
+```
+
+**Features:**
+- Validates tag format (`vX.Y.Z`)
+- Replaces all placeholder occurrences with actual version
+- Outputs to stdout by default, or to specified file
+
+### wait-for-release-assets.sh
+
+Polls Release Assets workflow until completion and verifies published artifacts.
+
+**Usage:**
+```bash
+.github/skills/create-github-release/wait-for-release-assets.sh vX.Y.Z
+```
+
+**Features:**
+- Polls workflow up to 20 times (200 seconds / ~3 minutes timeout)
+- Exits immediately on workflow success or failure
+- Verifies release metadata and asset count (expects 2 assets)
+- Validates HTTP response codes for asset download URLs (200 or 302)
+
+Use this after `gh release create` to automate end-to-end verification.
+
+## Release Workflow
+
+### Phase 1: Version Selection
+
+**Determine target version before executing any release commands.**
+
+If user provides version:
+- Accept `X.Y.Z` or `vX.Y.Z` format (normalize to `vX.Y.Z` internally for tags)
+- Proceed to Phase 2
+
+If no version provided:
+1. Read current version from `package.json`
+2. Present these options (mark patch as recommended):
+   - **Patch:** `vX.Y.(Z+1)` (e.g., `1.2.3` → `1.2.4`)
+   - **Minor:** `vX.(Y+1).0` (e.g., `1.2.3` → `1.3.0`)
+   - **Major:** `v(X+1).0.0` (e.g., `1.2.3` → `2.0.0`)
+   - **Custom:** User-specified version
+3. Wait for explicit user confirmation
+4. Never run mutation commands (`npm version`, `git commit`, `git push`, `gh release create`) until version is confirmed
+
+**Prompt template:**
+> Current package.json version is vX.Y.Z. Which target version should I use? Options: patch vX.Y.(Z+1), minor vX.(Y+1).0, major v(X+1).0.0, or a custom version.
+
+### Phase 2: Version Bump & Commit
+
+Update `package.json` and push to `main`:
 
 ```bash
-# 1) Bump version (if requested)
+# Bump version (updates package.json and package-lock.json)
 npm version X.Y.Z --no-git-tag-version
 
-# 2) Commit + push
+# Commit and push
 git add package*.json
 git commit -m "chore: release vX.Y.Z"
 git push origin main
+```
 
-# 3) Render release notes from canonical template
-TAG="vX.Y.Z"
-sed "s/vX.Y.Z/${TAG}/g" .github/release-notes-template.md > "/tmp/time-dial-release-notes-${TAG}.md"
+### Phase 3: Release Creation
 
-# 4) Create release
+Create GitHub release with rendered notes from canonical template:
+
+```bash
 gh release create vX.Y.Z \
 	--target main \
 	--title "vX.Y.Z" \
-	--notes-file "/tmp/time-dial-release-notes-${TAG}.md"
+	--notes "$(.github/skills/create-github-release/render-release-notes.sh vX.Y.Z)"
 ```
 
-## Machine-readable verification
+This triggers the `.github/workflows/release-assets.yml` workflow automatically, which:
+1. Checks out the tagged commit
+2. Installs dependencies (`npm ci`)
+3. Builds distribution files (`npm run build`)
+4. Uploads `time-dial.js` and `time-dial-themes.css` to the release
 
-Use JSON output so assistants/tools can parse results.
+### Phase 4: Verification
+
+Verify workflow completion and asset availability:
 
 ```bash
-# Workflow status
+# Automated verification (recommended)
+.github/skills/create-github-release/wait-for-release-assets.sh vX.Y.Z
+```
+
+**Manual verification (alternative):**
+
+```bash
+# Check workflow status
 gh run list --workflow "Release Assets" --limit 1 \
 	--json databaseId,displayTitle,status,conclusion,url,createdAt
 
-# Release metadata
+# Verify release and assets
 gh release view vX.Y.Z \
 	--json tagName,name,isPrerelease,isDraft,url,publishedAt,assets
+
+# Test asset URLs
+curl -I https://github.com/winterer/time-dial/releases/download/vX.Y.Z/time-dial.js
+curl -I https://github.com/winterer/time-dial/releases/download/vX.Y.Z/time-dial-themes.css
 ```
 
-Optional compact summaries:
+**Success criteria:**
+- Workflow status: `completed` with conclusion: `success`
+- Asset count: 2 files (`time-dial.js`, `time-dial-themes.css`)
+- Asset URLs return HTTP `200` or `302`
+
+## Troubleshooting
+
+### Release Assets workflow fails
+
+Common causes and fixes:
+
+1. **Version mismatch:** Tag version doesn't match `package.json` version
+   - Verify: `git show vX.Y.Z:package.json | grep '"version"'`
+   - Fix: Delete tag, update `package.json`, commit, recreate release
+
+2. **Build errors:** Local build fails
+   - Test: `npm ci && npm run build`
+   - Check: `dist/time-dial.js` and `dist/time-dial-themes.css` exist
+   - Fix issues, commit, push, recreate release/tag
+
+3. **Missing dist files:** Workflow runs but doesn't upload assets
+   - Verify `dist/` exists after build
+   - Check workflow logs for upload errors
+   - Ensure `vite.config.js` output matches expected paths
+
+### Release notes issues
+
+- Template source: `.github/release-notes-template.md`
+- Placeholder format: `vX.Y.Z` (all occurrences replaced)
+- Installation methods:
+  - **Primary:** jsDelivr CDN (`@latest` or pinned `@vX.Y.Z`)
+  - **Optional:** Self-hosted release assets
+  - **Avoid:** `npm install` instructions (unless published to npm)
+
+### Recovery steps
+
+If a release needs to be recreated:
 
 ```bash
-gh run list --workflow "Release Assets" --limit 1 --json databaseId,status,conclusion,url \
-	--jq '.[0] | "run=\(.databaseId) status=\(.status) conclusion=\(.conclusion) url=\(.url)"'
+# Delete existing release and tag
+gh release delete vX.Y.Z --yes
+git push origin :refs/tags/vX.Y.Z
 
-gh release view vX.Y.Z --json tagName,isDraft,isPrerelease,publishedAt,url,assets \
-	--jq '"tag=\(.tagName) draft=\(.isDraft) prerelease=\(.isPrerelease) publishedAt=\(.publishedAt) assets=\(.assets|length) url=\(.url)"'
+# Fix issues, commit, push
+git add .
+git commit -m "fix: issue description"
+git push origin main
+
+# Recreate release (returns to Phase 3)
+gh release create vX.Y.Z \
+	--target main \
+	--title "vX.Y.Z" \
+	--notes "$(.github/skills/create-github-release/render-release-notes.sh vX.Y.Z)"
 ```
-
-## Release notes guidance for this repo
-
-Installation guidance should be:
-
-- Primary: jsDelivr (`@latest` and optionally pinned `@vX.Y.Z`)
-- Optional: self-host downloaded release assets
-- Avoid `npm install time-dial` in notes unless npm publishing is confirmed
-
-Use `.github/release-notes-template.md` as the canonical source of release-note content.
-
-## Failure handling
-
-If the release workflow fails:
-
-1. Check mismatch between `package.json` and tag version first.
-2. Ensure tag starts with `v` and matches the version exactly.
-3. Re-run local build (`npm ci && npm run build`) to reproduce.
-4. Fix, push, and recreate release/tag only after verification.
