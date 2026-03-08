@@ -29,9 +29,31 @@ A framework-agnostic time selection widget implemented as a Web Component. The w
 
 ## Installation
 
-### CDN (Quick Start)
+### From GitHub Release (Recommended)
 
-Load directly from jsDelivr without any build step:
+Install directly from release assets. This gives stable, version-pinned URLs.
+
+Version-pinned:
+
+```html
+<script src="https://github.com/winterer/time-dial/releases/download/vX.Y.Z/time-dial.js"></script>
+<!-- Optional: Load shared themes -->
+<link rel="stylesheet" href="https://github.com/winterer/time-dial/releases/download/vX.Y.Z/time-dial-themes.css">
+
+<time-dial class="ocean-theme"></time-dial>
+```
+
+Latest release (optional):
+
+```html
+<script src="https://github.com/winterer/time-dial/releases/latest/download/time-dial.js"></script>
+<!-- Optional: Load shared themes -->
+<link rel="stylesheet" href="https://github.com/winterer/time-dial/releases/latest/download/time-dial-themes.css">
+```
+
+### Directly From Source
+
+Load source files from the main branch using jsDelivr:
 
 ```html
 <script src="https://cdn.jsdelivr.net/gh/winterer/time-dial@main/src/time-dial.js"></script>
@@ -41,7 +63,7 @@ Load directly from jsDelivr without any build step:
 <time-dial class="ocean-theme"></time-dial>
 ```
 
-### Local Usage
+Or clone the repository and include local source files:
 
 For development or local testing, clone the repository and include the source files:
 
