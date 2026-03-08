@@ -10,6 +10,42 @@ Use the [release checklist issue template](.github/ISSUE_TEMPLATE/release-checkl
 4. Workflow validates version match and uploads assets
 5. Verify URLs work (see issue template for links)
 
+## Release via gh CLI
+
+Prerequisites:
+
+- Install and authenticate GitHub CLI: `gh auth login`
+- Work from a clean branch synced with `main`
+
+Example release flow for `vX.Y.Z`:
+
+```bash
+# 1) Bump package.json version (no git tag from npm)
+npm version X.Y.Z --no-git-tag-version
+
+# 2) Commit and push version change
+git add package*.json
+git commit -m "chore: release vX.Y.Z"
+git push origin main
+
+# 3) Create GitHub release (this also creates tag vX.Y.Z from main)
+#    Keep notes empty to let the workflow prefill from template.
+gh release create vX.Y.Z \
+	--target main \
+	--title "vX.Y.Z" \
+	--notes ""
+```
+
+Optional checks:
+
+```bash
+# Latest Release Assets workflow run (structured output)
+gh run list --workflow "Release Assets" --limit 1 --json databaseId,displayTitle,status,conclusion,url,createdAt
+
+# Release metadata (structured output)
+gh release view vX.Y.Z --json tagName,name,isPrerelease,isDraft,url,publishedAt,assets
+```
+
 ## Versioning Rules
 
 - `package.json`: `X.Y.Z`
